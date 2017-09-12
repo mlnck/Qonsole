@@ -1,20 +1,30 @@
 //author @mlnck
 if(!window.console){window.console = {};}
-  //TODO: Group Level Creation/Settings
-  //TODO: Settings key in console objects - check for unique (global settings can only be called once)
-  //TODO: Settings key in console objects - check for at start (global settings can only be called before any other console.debug)
-  //TODO: (optional)- Allow overrides to be set via url GET vars (useful for testing when client could see) [e.g. www.site.com?qonsole-debug-type=info&qonsole-debug-log=normal (etc) ]
 
   //log level pseudo-constants
   console.DEBUG = 'CONSOLE_DEBUG_LOG_DEBUG'; console.NORM = 'CONSOLE_DEBUG_LOG_NORMAL'; console.PROD = 'CONSOLE_DEBUG_LOG_PRODUCTION';
   //type pseudo-constants
   console.INFO = 'CONSOLE_DEBUG_INFO'; console.ERR = 'CONSOLE_DEBUG_ERR'; console.WARN = 'CONSOLE_DEBUG_WARN';
   console.DO_PROFILE = false;
+  //user defined pseudo-constants
+  console.GROUPS = {};
 
   console.setLogLevel = function(s)
   { this.logLevel = (s === console.NORM) ? console.NORM : (s === console.PROD) ? console.PROD : console.DEBUG; }
+  console.showGroups = function(a)
+  {
+    //ADD TO README
+    //Groups can only be toggled in the settings - all toggled off, then individually turned back on
+      //if showGroups is used, default mode is automatically set to PROD
+    this.logLevel = console.PROD;
+    a.map((itm,indx)=>{ console.GROUPS[itm]=itm; });
+  }
   console.isLevel = function(s){
     this.OVERRIDE_GLOBAL = (s === console.NORM) ? console.NORM : (s === console.PROD) ? console.PROD : console.DEBUG;
+    return this;
+  }
+  console.setGroup = function(s,ss=''){
+    if(console.GROUPS.hasOwnProperty(s)){ this.OVERRIDE_GLOBAL = (ss === console.NORM) ? console.NORM : console.DEBUG }
     return this;
   }
   console.debug = function(...args){
