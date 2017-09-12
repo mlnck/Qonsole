@@ -1,9 +1,15 @@
 //author @mlnck
 if(!window.console){window.console = {};}
+
   //global settings pseudo-constants
   console.GLOBAL_SETTINGS_UPDATED = {setLogLevel:false,showGroups:false,debugCalled:false};
   console.GLOBAL_SETTINGS_ERROR_MESSAGE = 'Global settings (`setLogLevel`,`showGroups`) may only be applied once and must be applied before any other Qonsole calls.';
   console.GLOBAL_SETTINGS_ERROR = false;
+  console.BROWSER_URL_OVERRIDE = 0;
+  console.BROWSER_URL_OVERRIDE_MESSAGE = 'This feature is not to be used for development debugging. '+
+                                         'It is meant for those cases when the code is live and a bug is noticed. '+
+                                         'By using this you will lose many of the customization and helping options '+
+                                         'And will more than likely introduce unwanted behavior if using it during the normal debugging process.';
   //log level pseudo-constants
   console.DEBUG = 'CONSOLE_DEBUG_LOG_DEBUG'; console.NORM = 'CONSOLE_DEBUG_LOG_NORMAL'; console.PROD = 'CONSOLE_DEBUG_LOG_PRODUCTION';
   //type pseudo-constants
@@ -42,6 +48,12 @@ if(!window.console){window.console = {};}
     if(console.GROUPS.hasOwnProperty(s)){ this.OVERRIDE_GLOBAL = (ss === console.NORM) ? console.NORM : console.DEBUG }
     return this;
   }
+  console.browserOverride = function(){
+    console.warn('!!! BROWSER OVERRIDE WARNING ↴');
+    console.info(console.BROWSER_URL_OVERRIDE_MESSAGE);
+    console.warn('!!! BROWSER OVERRIDE WARNING ↑');
+    console.BROWSER_URL_OVERRIDE = (~window.location.href.indexOf('qonsole-normal')) ? 1 : 2;
+  }
   console.debug = function(...args){
       //stop script if there is an error
     if(console.GLOBAL_SETTINGS_ERROR){ return false; }
@@ -55,6 +67,9 @@ if(!window.console){window.console = {};}
     if(console.logLevel && console.logLevel != console.DEBUG){ args.splice(0,0,console.logLevel); }
     if(console.OVERRIDE_GLOBAL)
     { if(this.logLevel){ args.splice(0,1); } args.splice(0,0,console.OVERRIDE_GLOBAL); delete console.OVERRIDE_GLOBAL; }
+
+    if(console.BROWSER_URL_OVERRIDE)
+    { this.logLevel = (console.BROWSER_URL_OVERRIDE === 1) ? console.NORM : console.DEBUG; }
 
     let debugType, settingOffset=0;
     switch(args[0])
@@ -117,3 +132,4 @@ if(!window.console){window.console = {};}
       return (~String(s).indexOf('CONSOLE_DEBUG_')) ? s.replace('CONSOLE_DEBUG_','').toLowerCase() : 'log' ;
     }
   };
+if(~window.location.href.indexOf('qonsole-debug')){ console.browserOverride(); }
