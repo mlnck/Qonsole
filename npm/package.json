@@ -19,19 +19,19 @@
   "scripts": {
     "clean": "rimraf dist && rimraf coverage && rimraf .nyc_output && rimraf dist_test",
     "prettier": "prettier --single-quote --write \"{src,test}/**/*.ts\"",
-    "prelocaldeploy": "npm run clean && npm run lint:fix",
-    "localdeploy": "npm run lint && npm run test && npm run build",
-    "postlocaldeploy": "npm install -g",
+    "prelocaldeploy": "yarn run clean && yarn run lint:fix",
+    "localdeploy": "yarn run lint && yarn run test && yarn run build",
+    "postlocaldeploy": "yarn install -g",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "lint:fix": "tslint --fix --force --format verbose \"src/**/*.ts\"",
-    "prepublish": "npm run build",
-    "prebuild": "npm run clean && npm run prettier && npm run lint && echo Using TypeScript && tsc --version",
+    "prepublish": "yarn run build",
+    "prebuild": "yarn run clean && yarn run prettier && yarn run lint && echo Using TypeScript && tsc --version",
     "build": "tsc",
-    "test": "npm run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*-spec.js\" ava \"**/*-spec.js\" --verbose",
+    "test": "yarn run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*-spec.js\" ava \"**/*-spec.js\" --verbose",
     "posttest": "rimraf dist_test",
     "coverage": "nyc report --reporter=lcov --reporter=text --reporter=html",
-    "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch"
+    "watch": "yarn run build -- --watch",
+    "watch:test": "yarn run test -- --watch"
   },
   "keywords": [
     "compile",
