@@ -1,24 +1,67 @@
 {
   "name": "qonsole",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extends Default Browser Based Console Logging",
-  "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mlnck/Qonsole.git"
-  },
-  "keywords": [
-    "browser",
-    "log",
-    "console"
-  ],
   "author": "mlnck",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mlnck/Qonsole/issues"
   },
-  "homepage": "https://github.com/mlnck/Qonsole#readme"
+  "homepage": "https://github.com/mlnck/Qonsole#readme",
+  "bin": {
+    "qonsole": "./dist/index.js"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist && rimraf coverage && rimraf .nyc_output && rimraf dist_test",
+    "prettier": "prettier --single-quote --write \"{src,test}/**/*.ts\"",
+    "prelocaldeploy": "npm run clean && npm run lint:fix",
+    "localdeploy": "npm run lint && npm run test && npm run build",
+    "postlocaldeploy": "npm install -g",
+    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "lint:fix": "tslint --fix --force --format verbose \"src/**/*.ts\"",
+    "prepublish": "npm run build",
+    "prebuild": "npm run clean && npm run prettier && npm run lint && echo Using TypeScript && tsc --version",
+    "build": "tsc",
+    "test": "npm run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*-spec.js\" ava \"**/*-spec.js\" --verbose",
+    "posttest": "rimraf dist_test",
+    "coverage": "nyc report --reporter=lcov --reporter=text --reporter=html",
+    "watch": "npm run build -- --watch",
+    "watch:test": "npm run test -- --watch"
+  },
+  "keywords": [
+    "compile",
+    "readme",
+    "parse"
+  ],
+  "dependencies": {
+    "@types/commander": "^2.9.1",
+    "@types/marked": "^0.0.28",
+    "@types/rimraf": "^0.0.28",
+    "commander": "^2.11.0",
+    "marked": "^0.3.6",
+    "rimraf": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.0",
+    "ava": "^0.20.0",
+    "coveralls": "^2.0.0",
+    "nyc": "^10.0.0",
+    "prettier": "^1.5.2",
+    "tslint": "^5.0.0",
+    "tslint-config-prettier": "^1.1.0",
+    "typescript": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  }
 }
