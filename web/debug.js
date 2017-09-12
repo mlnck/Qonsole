@@ -13,7 +13,7 @@ if(!window.qonsole){window.qonsole = {};}
   //log level pseudo-constants
   qonsole.DEBUG = 'CONSOLE_DEBUG_LOG_DEBUG'; qonsole.NORM = 'CONSOLE_DEBUG_LOG_NORMAL'; qonsole.PROD = 'CONSOLE_DEBUG_LOG_PRODUCTION';
   //type pseudo-constants
-  qonsole.INFO = 'CONSOLE_DEBUG_INFO'; qonsole.ERR = 'CONSOLE_DEBUG_ERR'; qonsole.WARN = 'CONSOLE_DEBUG_WARN';
+  qonsole.INFO = 'CONSOLE_DEBUG_INFO'; qonsole.ERROR = 'CONSOLE_DEBUG_ERROR'; qonsole.WARN = 'CONSOLE_DEBUG_WARN';
   qonsole.DO_PROFILE = false;
   //user defined pseudo-constants
   qonsole.GROUPS = {};
@@ -75,12 +75,12 @@ if(!window.qonsole){window.qonsole = {};}
     switch(args[0])
     {
       case 'CONSOLE_DEBUG_INFO': debugType = 'info'; break;
-      case 'CONSOLE_DEBUG_ERR': debugType = 'error'; break;
+      case 'CONSOLE_DEBUG_ERROR': debugType = 'error'; break;
       case 'CONSOLE_DEBUG_WARN': debugType = 'warn'; break;
       case 'CONSOLE_DEBUG_LOG_PRODUCTION': return false;
       case 'CONSOLE_DEBUG_LOG_NORMAL':
         debugType = checkTypeFromSettings(args[1]);
-        if(debugType === 'err'){ debugType = 'error'; }
+        // if(debugType === 'err'){ debugType = 'error'; }
         (debugType === 'log') ? args.splice(0,1) : args.splice(0,2) ;
         console[debugType](args);
         return;
@@ -96,7 +96,8 @@ if(!window.qonsole){window.qonsole = {};}
       if(typeof(args[i]) === 'string' && args[i].charAt(args[i].length-1) === ':')
       { console[debugType](itemStr,args[i],args[++i]); }
       else
-      { console[debugType](itemStr,args[i]); }
+      {console.log(debugType);
+        console[debugType](itemStr,args[i]); }
       checkForObject(itemStr,args[i]);
     }
     console.groupCollapsed('Stack Trace:'); console.trace(); console.groupEnd();
