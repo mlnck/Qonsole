@@ -1,6 +1,9 @@
 //author @mlnck
 if(!window.console){window.console = {};}
-
+  //global settings pseudo-constants
+  console.GLOBAL_SETTINGS_UPDATED = {setLogLevel:false,showGroups:false,debugCalled:false};
+  console.GLOBAL_SETTINGS_ERROR_MESSAGE = 'Global settings (`setLogLevel`,`showGroups`) may only be applied once and must be applied before any other Qonsole calls.';
+  console.GLOBAL_SETTINGS_ERROR = false;
   //log level pseudo-constants
   console.DEBUG = 'CONSOLE_DEBUG_LOG_DEBUG'; console.NORM = 'CONSOLE_DEBUG_LOG_NORMAL'; console.PROD = 'CONSOLE_DEBUG_LOG_PRODUCTION';
   //type pseudo-constants
@@ -9,13 +12,25 @@ if(!window.console){window.console = {};}
   //user defined pseudo-constants
   console.GROUPS = {};
 
+  console.handleGlobalSettingsError = function()
+  {
+    console.GLOBAL_SETTINGS_ERROR = true;
+    console.error(console.GLOBAL_SETTINGS_ERROR_MESSAGE);
+    return false;
+  }
   console.setLogLevel = function(s)
-  { this.logLevel = (s === console.NORM) ? console.NORM : (s === console.PROD) ? console.PROD : console.DEBUG; }
+  {
+    if(console.GLOBAL_SETTINGS_UPDATED.setLogLevel){ console.handleGlobalSettingsError(); return false; }
+    console.GLOBAL_SETTINGS_UPDATED.setLogLevel = true;
+    this.logLevel = (s === console.NORM) ? console.NORM : (s === console.PROD) ? console.PROD : console.DEBUG;
+  }
   console.showGroups = function(a)
   {
+    if(console.GLOBAL_SETTINGS_UPDATED.showGroups){ console.handleGlobalSettingsError(); return false; }
     //ADD TO README
     //Groups can only be toggled in the settings - all toggled off, then individually turned back on
       //if showGroups is used, default mode is automatically set to PROD
+    console.GLOBAL_SETTINGS_UPDATED.showGroups = true;
     this.logLevel = console.PROD;
     a.map((itm,indx)=>{ console.GROUPS[itm]=itm; });
   }
@@ -28,6 +43,12 @@ if(!window.console){window.console = {};}
     return this;
   }
   console.debug = function(...args){
+      //stop script if there is an error
+    if(console.GLOBAL_SETTINGS_ERROR){ return false; }
+      //ensures global settings are set before anything else
+    console.GLOBAL_SETTINGS_UPDATED.showGroups = true;
+    console.GLOBAL_SETTINGS_UPDATED.setLogLevel = true;
+
     if(console.DO_PROFILE){ console.profile('debug profile'); }//Not fully supported + Increases Load Time Drastically
     console.time('debugged in');
 
