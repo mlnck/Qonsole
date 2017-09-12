@@ -1,75 +1,75 @@
 //author @mlnck
 if(!window.console){window.console = {};}
-
+if(!window.qonsole){window.qonsole = {};}
   //global settings pseudo-constants
-  console.GLOBAL_SETTINGS_UPDATED = {setLogLevel:false,showGroups:false,debugCalled:false};
-  console.GLOBAL_SETTINGS_ERROR_MESSAGE = 'Global settings (`setLogLevel`,`showGroups`) may only be applied once and must be applied before any other Qonsole calls.';
-  console.GLOBAL_SETTINGS_ERROR = false;
-  console.BROWSER_URL_OVERRIDE = 0;
-  console.BROWSER_URL_OVERRIDE_MESSAGE = 'This feature is not to be used for development debugging. '+
+  qonsole.GLOBAL_SETTINGS_UPDATED = {setLogLevel:false,showGroups:false,debugCalled:false};
+  qonsole.GLOBAL_SETTINGS_ERROR_MESSAGE = 'Global settings (`setLogLevel`,`showGroups`) may only be applied once and must be applied before any other Qonsole calls.';
+  qonsole.GLOBAL_SETTINGS_ERROR = false;
+  qonsole.BROWSER_URL_OVERRIDE = 0;
+  qonsole.BROWSER_URL_OVERRIDE_MESSAGE = 'This feature is not to be used for development debugging. '+
                                          'It is meant for those cases when the code is live and a bug is noticed. '+
                                          'By using this you will lose many of the customization and helping options '+
                                          'And will more than likely introduce unwanted behavior if using it during the normal debugging process.';
   //log level pseudo-constants
-  console.DEBUG = 'CONSOLE_DEBUG_LOG_DEBUG'; console.NORM = 'CONSOLE_DEBUG_LOG_NORMAL'; console.PROD = 'CONSOLE_DEBUG_LOG_PRODUCTION';
+  qonsole.DEBUG = 'CONSOLE_DEBUG_LOG_DEBUG'; qonsole.NORM = 'CONSOLE_DEBUG_LOG_NORMAL'; qonsole.PROD = 'CONSOLE_DEBUG_LOG_PRODUCTION';
   //type pseudo-constants
-  console.INFO = 'CONSOLE_DEBUG_INFO'; console.ERR = 'CONSOLE_DEBUG_ERR'; console.WARN = 'CONSOLE_DEBUG_WARN';
-  console.DO_PROFILE = false;
+  qonsole.INFO = 'CONSOLE_DEBUG_INFO'; qonsole.ERR = 'CONSOLE_DEBUG_ERR'; qonsole.WARN = 'CONSOLE_DEBUG_WARN';
+  qonsole.DO_PROFILE = false;
   //user defined pseudo-constants
-  console.GROUPS = {};
+  qonsole.GROUPS = {};
 
-  console.handleGlobalSettingsError = function()
+  qonsole.handleGlobalSettingsError = function()
   {
-    console.GLOBAL_SETTINGS_ERROR = true;
-    console.error(console.GLOBAL_SETTINGS_ERROR_MESSAGE);
+    qonsole.GLOBAL_SETTINGS_ERROR = true;
+    console.error(qonsole.GLOBAL_SETTINGS_ERROR_MESSAGE);
     return false;
   }
-  console.setLogLevel = function(s)
+  qonsole.setLogLevel = function(s)
   {
-    if(console.GLOBAL_SETTINGS_UPDATED.setLogLevel){ console.handleGlobalSettingsError(); return false; }
-    console.GLOBAL_SETTINGS_UPDATED.setLogLevel = true;
-    this.logLevel = (s === console.NORM) ? console.NORM : (s === console.PROD) ? console.PROD : console.DEBUG;
+    if(qonsole.GLOBAL_SETTINGS_UPDATED.setLogLevel){ qonsole.handleGlobalSettingsError(); return false; }
+    qonsole.GLOBAL_SETTINGS_UPDATED.setLogLevel = true;
+    this.logLevel = (s === qonsole.NORM) ? qonsole.NORM : (s === qonsole.PROD) ? qonsole.PROD : qonsole.DEBUG;
   }
-  console.showGroups = function(a)
+  qonsole.showGroups = function(a)
   {
-    if(console.GLOBAL_SETTINGS_UPDATED.showGroups){ console.handleGlobalSettingsError(); return false; }
+    if(qonsole.GLOBAL_SETTINGS_UPDATED.showGroups){ qonsole.handleGlobalSettingsError(); return false; }
     //ADD TO README
     //Groups can only be toggled in the settings - all toggled off, then individually turned back on
       //if showGroups is used, default mode is automatically set to PROD
-    console.GLOBAL_SETTINGS_UPDATED.showGroups = true;
-    this.logLevel = console.PROD;
-    a.map((itm,indx)=>{ console.GROUPS[itm]=itm; });
+    qonsole.GLOBAL_SETTINGS_UPDATED.showGroups = true;
+    this.logLevel = qonsole.PROD;
+    a.map((itm,indx)=>{ qonsole.GROUPS[itm]=itm; });
   }
-  console.isLevel = function(s){
-    this.OVERRIDE_GLOBAL = (s === console.NORM) ? console.NORM : (s === console.PROD) ? console.PROD : console.DEBUG;
+  qonsole.isLevel = function(s){
+    this.OVERRIDE_GLOBAL = (s === qonsole.NORM) ? qonsole.NORM : (s === qonsole.PROD) ? qonsole.PROD : qonsole.DEBUG;
     return this;
   }
-  console.setGroup = function(s,ss=''){
-    if(console.GROUPS.hasOwnProperty(s)){ this.OVERRIDE_GLOBAL = (ss === console.NORM) ? console.NORM : console.DEBUG }
+  qonsole.setGroup = function(s,ss=''){
+    if(qonsole.GROUPS.hasOwnProperty(s)){ this.OVERRIDE_GLOBAL = (ss === qonsole.NORM) ? qonsole.NORM : qonsole.DEBUG }
     return this;
   }
-  console.browserOverride = function(){
+  qonsole.browserOverride = function(){
     console.warn('!!! BROWSER OVERRIDE WARNING ↴');
-    console.info(console.BROWSER_URL_OVERRIDE_MESSAGE);
+    console.info(qonsole.BROWSER_URL_OVERRIDE_MESSAGE);
     console.warn('!!! BROWSER OVERRIDE WARNING ↑');
-    console.BROWSER_URL_OVERRIDE = (~window.location.href.indexOf('qonsole-normal')) ? 1 : 2;
+    qonsole.BROWSER_URL_OVERRIDE = (~window.location.href.indexOf('qonsole-normal')) ? 1 : 2;
   }
-  console.debug = function(...args){
+  qonsole.debug = function(...args){
       //stop script if there is an error
-    if(console.GLOBAL_SETTINGS_ERROR){ return false; }
+    if(qonsole.GLOBAL_SETTINGS_ERROR){ return false; }
       //ensures global settings are set before anything else
-    console.GLOBAL_SETTINGS_UPDATED.showGroups = true;
-    console.GLOBAL_SETTINGS_UPDATED.setLogLevel = true;
+    qonsole.GLOBAL_SETTINGS_UPDATED.showGroups = true;
+    qonsole.GLOBAL_SETTINGS_UPDATED.setLogLevel = true;
 
-    if(console.DO_PROFILE){ console.profile('debug profile'); }//Not fully supported + Increases Load Time Drastically
+    if(qonsole.DO_PROFILE){ console.profile('debug profile'); }//Not fully supported + Increases Load Time Drastically
     console.time('debugged in');
 
-    if(console.logLevel && console.logLevel != console.DEBUG){ args.splice(0,0,console.logLevel); }
-    if(console.OVERRIDE_GLOBAL)
-    { if(this.logLevel){ args.splice(0,1); } args.splice(0,0,console.OVERRIDE_GLOBAL); delete console.OVERRIDE_GLOBAL; }
+    if(qonsole.logLevel && qonsole.logLevel != qonsole.DEBUG){ args.splice(0,0,qonsole.logLevel); }
+    if(qonsole.OVERRIDE_GLOBAL)
+    { if(this.logLevel){ args.splice(0,1); } args.splice(0,0,qonsole.OVERRIDE_GLOBAL); delete qonsole.OVERRIDE_GLOBAL; }
 
-    if(console.BROWSER_URL_OVERRIDE)
-    { this.logLevel = (console.BROWSER_URL_OVERRIDE === 1) ? console.NORM : console.DEBUG; }
+    if(qonsole.BROWSER_URL_OVERRIDE)
+    { this.logLevel = (qonsole.BROWSER_URL_OVERRIDE === 1) ? qonsole.NORM : qonsole.DEBUG; }
 
     let debugType, settingOffset=0;
     switch(args[0])
@@ -102,7 +102,7 @@ if(!window.console){window.console = {};}
     console.groupCollapsed('Stack Trace:'); console.trace(); console.groupEnd();
     console.timeEnd('debugged in');
     console.log('--END DEBUG BLOCK--');console.log('');console.log('');
-    if(console.DO_PROFILE){ console.profileEnd('debug profile'); }//Not fully supported + Increases Load Time Drastically
+    if(qonsole.DO_PROFILE){ console.profileEnd('debug profile'); }//Not fully supported + Increases Load Time Drastically
     function checkForObject(s,o)
     {
       if(typeof(o) === 'object'){ console[debugType]('Tabular data for item '+s.replace(')','')+'↴'); }
@@ -132,4 +132,4 @@ if(!window.console){window.console = {};}
       return (~String(s).indexOf('CONSOLE_DEBUG_')) ? s.replace('CONSOLE_DEBUG_','').toLowerCase() : 'log' ;
     }
   };
-if(~window.location.href.indexOf('qonsole-debug')){ console.browserOverride(); }
+if(~window.location.href.indexOf('qonsole-debug')){ qonsole.browserOverride(); }
