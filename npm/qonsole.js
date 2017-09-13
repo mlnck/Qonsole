@@ -1,11 +1,6 @@
 //author @mlnck
-exports.qonsole = function() {
-  if(typeof(window) !== undefined)
-  {
-    if(!window.console){window.console = {};}
-    if(!window.qonsole){window.qonsole = {};}
-  }
-  else { var qonsole = {}; }
+
+    var qonsole = {};
     //global settings pseudo-constants
     qonsole.GLOBAL_SETTINGS_UPDATED = {setLogLevel:false,showGroups:false,debugCalled:false};
     qonsole.GLOBAL_SETTINGS_ERROR_MESSAGE = 'Global settings (`setLogLevel`,`showGroups`) may only be applied once and must be applied before any other Qonsole calls.';
@@ -38,9 +33,6 @@ exports.qonsole = function() {
     qonsole.showGroups = function(a)
     {
       if(qonsole.GLOBAL_SETTINGS_UPDATED.showGroups){ qonsole.handleGlobalSettingsError(); return false; }
-      //ADD TO README
-      //Groups can only be toggled in the settings - all toggled off, then individually turned back on
-        //if showGroups is used, default mode is automatically set to PROD
       qonsole.GLOBAL_SETTINGS_UPDATED.showGroups = true;
       this.logLevel = qonsole.PROD;
       a.map((itm,indx)=>{ qonsole.GROUPS[itm]=itm; });
@@ -138,5 +130,6 @@ exports.qonsole = function() {
         return (~String(s).indexOf('CONSOLE_DEBUG_')) ? s.replace('CONSOLE_DEBUG_','').toLowerCase() : 'log' ;
       }
     };
-  if(~window.location.href.indexOf('qonsole-debug')){ qonsole.browserOverride(); }
-}
+  if(typeof(window) != 'undefined')
+  { if(~window.location.href.indexOf('qonsole-debug')){ qonsole.browserOverride(); } }
+exports.qonsole = qonsole;
