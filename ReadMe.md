@@ -60,3 +60,5 @@ _**WARNING:**_ This will _greatly_ increase load time and memory usage.
 ##### _Additional Notes:_
 * There are 2 blank lines after each debug block. This is intentional to help differentiate the individual method calls.
 * Due to the _console.debug_ method handling all logging, the line numbers will not match up to where the _console.debug_ method was called in the original javascript code. To handle this, at the end of the _DEBUG BLOCK_, there is a collapsed _Stack Trace:_ object. If you expand that you can see where the _console.debug_ call originated from.
+* Groups can only be toggled in the settings - all toggled off, then individually turned back on
+** if showGroups is used, default mode is automatically set to PROD
