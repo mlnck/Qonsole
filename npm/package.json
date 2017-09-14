@@ -1,6 +1,6 @@
 {
   "name": "qonsole",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Console Logging Extension",
   "main": "qonsole.js",
   "scripts": {
