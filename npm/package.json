@@ -22,7 +22,5 @@
     "url": "https://github.com/mlnck/Qonsole/issues"
   },
   "homepage": "https://github.com/mlnck/Qonsole#readme",
-  "devDependencies": {
-    "jest": "^21.0.2"
-  }
+  "devDependencies": { }
 }

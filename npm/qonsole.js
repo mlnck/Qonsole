@@ -1,6 +1,7 @@
 //author @mlnck
 
     var qonsole = {};
+    var path = require('path');
     //global settings pseudo-constants
     qonsole.GLOBAL_SETTINGS_UPDATED = {setLogLevel:false,showGroups:false,debugCalled:false};
     qonsole.GLOBAL_SETTINGS_ERROR_MESSAGE = 'Global settings (`setLogLevel`,`showGroups`) may only be applied once and must be applied before any other Qonsole calls.';
@@ -93,7 +94,7 @@
         if(typeof(args[i]) === 'string' && args[i].charAt(args[i].length-1) === ':')
         { console[debugType](itemStr,args[i],args[++i]); }
         else
-        {console.log(debugType);
+        {//console.log(debugType);
           console[debugType](itemStr,args[i]); }
         checkForObject(itemStr,args[i]);
       }
@@ -132,4 +133,12 @@
     };
   if(typeof(window) != 'undefined')
   { if(~window.location.href.indexOf('qonsole-debug')){ qonsole.browserOverride(); } }
+
+  qonsole.getQonsolePath = function(loadPath)
+  {
+    console.log('WARNING: This is in beta. You will still have to enable app.static'+
+                'with `/node_modules/` etc, and then remove that dir from the load path in pug/ejs/etc'+
+                'You will also have to take into account all es6 issues. NOT RECOMMENDED for now.');
+    console.log('Qonsole Load Path: (recommend to run from app/server/root/etc)', path.relative(loadPath,__filename));
+  };
 exports.qonsole = qonsole;
