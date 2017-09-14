@@ -48,7 +48,7 @@ The options are:
 You are also able to globally set the log level for all output using _qonsole.debug_.  
 You do this by calling using the _setLogLevel_ method.
 ```javascript
-  console.setLogLevel(qonsole.DEBUG);
+  qonsole.setLogLevel(qonsole.DEBUG);
 ```
 The options are:
 * qonsole.DEBUG (default)
