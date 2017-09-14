@@ -37,7 +37,7 @@ There will be recursively nested tables that display for each array and object w
 In addition to displaying the format using _console.log_ you can also specify to use _info_, _warn_, or _error_.  
 You do this by passing the display option as the first argument:
 ```javascript
-  qonsole.debug(console.WARN,'username','password',arr,obj,'strVar:',strVar);
+  qonsole.debug(qonsole.WARN,'username','password',arr,obj,'strVar:',strVar);
 ```
 The options are:
 * qonsole.LOG (default)
