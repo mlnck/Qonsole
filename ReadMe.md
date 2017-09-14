@@ -22,7 +22,7 @@ That will allow you access to the _qonsole.debug_ method.
 By default each item that you log will be logged on its own line.  
 There will be recursively nested tables that display for each array and object within the item.
 
-You can also grab a version of the package for purely front-end use from github. Install it as you would any other external javascript file using the _<script src=""></script>_ tags. That version is available here: []()
+You can also grab a version of the package for purely front-end use from github. Install it as you would any other external javascript file using the _<script src=""></script>_ tags. That version is available here: [https://github.com/mlnck/Qonsole/blob/master/web/debug.js](https://github.com/mlnck/Qonsole/blob/master/web/debug.js)
 
 ### Options
 In addition to displaying the format using _console.log_ you can also specify to use _info_, _warn_, or _error_.  
