@@ -42,7 +42,7 @@ You do this by passing the display option as the first argument:
 The options are:
 * qonsole.LOG (default)
 * qonsole.INFO
-* qonsole.ERR
+* qonsole.ERROR
 * qonsole.WARN
 
 You are also able to globally set the log level for all output using _qonsole.debug_.  
