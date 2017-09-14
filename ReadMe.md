@@ -1,5 +1,7 @@
 # A Verbose Console Extension for Front-End JavaScript Debugging
 
+Inspired by ActionScript's "_Disable Trace Comments On Publish_" setting, I wanted a way to be able to have copious amounts of console logs (if need be) for development, but not have them output when you were ready to make it live or ship it to the client. I would create the logs, use the logs and then either comment them all out, or delete them. And as long as no updates ever needed to be made that was fine. But anytime a change/enhancement was requested I would have to uncomment, or recreate, the log for development purposes again. As I was creating the first version of this more and more enhancements came to mind and is now what is included in the package.
+
 This allows you to more easily see the variables, strings, and objects that you wish to print out in the Developer's Tool console.
 It returns a "pretty print" version of what you would console log.
 
@@ -16,13 +18,20 @@ and when you expand it:
 ![Console Debug Expanded](console-debug-expanded.png)
 
 ## Usage:
+
+`npm install qonsole --save`
+
+or
+
+`yarn add qonsole`
+
+You can also grab a version of the package for purely front-end use from github. Install it as you would any other external javascript file using the _<script src=""></script>_ tags. That version is available here: [https://github.com/mlnck/Qonsole/blob/master/web/debug.js](https://github.com/mlnck/Qonsole/blob/master/web/debug.js)
+
 Import the script into your page.  
 That will allow you access to the _qonsole.debug_ method.
 
 By default each item that you log will be logged on its own line.  
 There will be recursively nested tables that display for each array and object within the item.
-
-You can also grab a version of the package for purely front-end use from github. Install it as you would any other external javascript file using the _<script src=""></script>_ tags. That version is available here: [https://github.com/mlnck/Qonsole/blob/master/web/debug.js](https://github.com/mlnck/Qonsole/blob/master/web/debug.js)
 
 ### Options
 In addition to displaying the format using _console.log_ you can also specify to use _info_, _warn_, or _error_.  
